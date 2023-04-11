@@ -1,0 +1,9 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "bd.com.tourx",
+      "sha256_cert_fingerprints":
+      ["62:98:E2:0F:95:C5:A3:9E:84:E5:76:90:36:4F:CF:EC:69:8A:97:F6:04:CF:78:76:AB:B5:38:95:BD:BF:97:29"]
+    }
+  }]
