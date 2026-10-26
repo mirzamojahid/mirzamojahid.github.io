@@ -1,19 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mirza Mojahid</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mirza Mojahid – Software Engineer | Bio &amp; CV</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: light; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body { background:#f6f8f7; color:#1f2a2e; font-family:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif; line-height:1.6; }
+  body::before { content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:#fff; }
+  .display { font-family:'Fraunces',Georgia,'Times New Roman',serif; }
+  a:focus-visible, button:focus-visible { outline:2px solid #0f766e; outline-offset:2px; }
+  [id^="s-"] { scroll-margin-top: 112px; }
+  #tabs { scrollbar-width:none; } #tabs::-webkit-scrollbar { display:none; }
+  .tab { display:flex; align-items:center; justify-content:center; flex:1 0 auto; padding:.5rem .9rem; font-size:.8125rem; font-weight:500; color:#475569; white-space:nowrap; border-bottom:3px solid transparent; }
+  .tab:hover { background:#f1f5f9; }
+  .tab[aria-current="true"] { color:#0f766e; font-weight:600; border-bottom-color:#0f766e; }
+</style>
 </head>
 <body>
+<div id="topbar" class="fixed inset-x-0 z-20 hidden border-b border-slate-200 bg-white/95 backdrop-blur" style="top:env(safe-area-inset-top,0px)"></div>
+<main id="app" class="mx-auto max-w-4xl space-y-6 px-4 py-8 sm:py-12"></main>
+<footer class="pb-10 text-center text-sm text-slate-500">© <span id="yr"></span> Mirza Mojahid</footer>
+<dialog id="lb" class="m-auto w-[92vw] max-w-3xl rounded-2xl bg-white p-3">
+  <button id="lbx" class="mb-2 ml-auto block rounded-lg border border-slate-300 px-3 py-1 text-sm font-semibold">Close</button>
+  <img id="lbimg" alt="" class="max-h-[75vh] w-full object-contain">
+  <p id="lbcap" class="mt-2 text-center text-sm text-slate-600"></p>
+</dialog>
 
-    <pre>
-        Name: Mirza Mojahid
-        Gender: Male
-        Age: 23
+<script>
+/* =========================================================
+   1) SECTIONS – each section is its own component (see 3).
+      show:false  -> hide it      | delete the line -> remove it
+      move a line -> change order | tab = label in the top bar
+      A section whose data is empty / null is hidden automatically
+      (page card, top bar tab and PDF).
+   ========================================================= */
+var SECTIONS = [
+  { id: 'about',      tab: 'About',      show: true },
+  { id: 'biodata',    tab: 'Biodata',    show: true },
+  { id: 'contact',    tab: 'Contact',    show: true },
+  { id: 'experience', tab: 'Experience', show: true },
+  { id: 'education',  tab: 'Education',  show: true },
+  { id: 'portfolio',  tab: 'Portfolio',  show: true },
+  { id: 'gallery',    tab: 'Gallery',    show: true },
+  { id: 'timeline',   tab: 'Timeline',   show: true }
+];
 
-    </pre>
-    
+/* =========================================================
+   2) DATA – edit your information here (page + PDF use it)
+   ========================================================= */
+var AGE = new Date().getFullYear() - 2000;
+var DATA = {
+  name: 'Mirza Mojahid', initials: 'MM', photo: 'img/me.jpg',
+  role: 'Software Engineer & Founder, Shohayok Technologies',
+  bio: 'B.Sc. in Computer Science & Engineering. I work with clients to design, build and deliver professional software and business solutions through my own company, Shohayok Technologies.',
+  pdfLine: 'shohayok.com   |   linkedin.com/in/mirzamojahid',
+  buttons: [['Visit Shohayok', 'https://shohayok.com', true], ['View LinkedIn', 'https://linkedin.com/in/mirzamojahid', false]],
+  biodata: [
+    ['Full name', 'Mirza Mojahid'], ['Gender', 'Male'],
+    ['Date of birth', '1 January 2000'], ['Age', AGE + ' years'],
+    ['Religion', 'Islam'], ['Marital status', 'Single'],
+    ['Occupation', 'Software Engineer'], ['Employment', 'Self-employed'],
+    ['Education', 'B.Sc. in CSE']
+  ],
+  contacts: [   /* [label, text shown, link] */
+    ['Website', 'shohayok.com', 'https://shohayok.com'],
+    ['LinkedIn', 'linkedin.com/in/mirzamojahid', 'https://linkedin.com/in/mirzamojahid'],
+    ['GitHub', 'github.com/mirzamojahid', 'https://github.com/mirzamojahid'],
+    ['Facebook', 'fb.com/mirzamojahid.mm', 'https://fb.com/mirzamojahid.mm'],
+    ['Telegram', 'telegram.com/mirzamojahid', 'https://telegram.com/mirzamojahid'],
+    ['WhatsApp', 'whatsapp.com/mirzamojahid', 'https://whatsapp.com/mirzamojahid']
+  ],
+  experience: [
+    { title: 'Software Engineer & Founder', org: 'Shohayok Technologies', link: 'https://shohayok.com',
+      text: 'Running my own company, working with clients to design, build and deliver professional software and business solutions.' }
+  ],
+  education: [
+    { title: 'B.Sc. in Computer Science & Engineering', place: '', date: '2020 – 2024' },
+    { title: 'HSC', place: 'Agricultural University College', date: '2018' },
+    { title: 'SSC', place: 'Balijuri F.M. High School', date: '2016' }
+  ],
+  portfolio: [
+    // { title: 'Shohayok Technologies', text: 'My software company. See the services and work on shohayok.com.', link: 'https://shohayok.com' },
+    // { title: 'Open-source work', text: 'Code and repositories on GitHub.', link: 'https://github.com/mirzamojahid' }
+  ],
+  photos: [     /* src: 'img/photo1.jpg'  (empty = placeholder, skipped in PDF) */
+    // { src: '', alt: 'Portrait', caption: 'Portrait' },
+    // { src: '', alt: 'Casual photo', caption: 'Casual' },
+    // { src: '', alt: 'Formal photo', caption: 'Formal' },
+    // { src: '', alt: 'Graduation photo', caption: 'Graduation, 2024' },
+    // { src: '', alt: 'At work', caption: 'At work' },
+    // { src: '', alt: 'Family and friends', caption: 'Family & friends' }
+  ],
+  timeline: [   
+    // { date: '2020 – 2024', title: 'B.Sc. in Computer Science & Engineering', text: 'Completed my bachelor’s degree in CSE.',
+    //   media: [{ type: 'image', src: '', alt: 'University' }] },
+    // { date: '', title: 'Shohayok Technologies', link: 'https://shohayok.com',
+    //   text: 'Started my own software company and work as its Software Engineer, building professional business solutions for clients.',
+    //   media: [{ type: 'image', src: '', alt: 'Shohayok Technologies' }, { type: 'video', src: '', poster: '' }] }
+  ]
+};
+
+/* =========================================================
+   3) COMPONENTS – one function per section
+   ========================================================= */
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function Card(id, title, inner) { return '<section id="s-' + id + '" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8"><h2 class="display text-xl font-bold text-slate-900">' + esc(title) + '</h2>' + inner + '</section>'; }
+function Ph(label) { return '<div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">' + esc(label) + '</div>'; }
+function Avatar(cls) {
+  return '<div class="display relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-teal-700 font-bold text-white ' + cls + '"><span>' + esc(DATA.initials) + '</span>' +
+    (DATA.photo ? '<img src="' + esc(DATA.photo) + '" alt="' + esc(DATA.name) + '" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()">' : '') + '</div>';
+}
+
+var COMPONENTS = {
+  about: function () {
+    var b = (DATA.buttons || []).map(function (x) {
+      return '<a href="' + esc(x[1]) + '" target="_blank" rel="noopener" class="rounded-lg px-4 py-2 font-semibold ' + (x[2] ? 'bg-teal-700 text-white hover:bg-teal-800' : 'border border-slate-300 bg-white text-slate-800 hover:bg-slate-50') + '">' + esc(x[0]) + '</a>';
+    }).join('');
+    return '<header id="s-about" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10"><div class="flex flex-col gap-6 sm:flex-row sm:items-center">' + Avatar('h-28 w-28 text-4xl') +
+      '<div><h1 class="display text-3xl font-bold text-slate-900 sm:text-4xl">' + esc(DATA.name) + '</h1><p class="mt-1 text-lg font-medium text-teal-800">' + esc(DATA.role) + '</p>' +
+      '<p class="mt-3 max-w-xl text-slate-600">' + esc(DATA.bio) + '</p><div class="mt-5 flex flex-wrap gap-3">' + b +
+      '<button id="pdfbtn" type="button" class="rounded-lg border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-800 hover:bg-slate-50">Download CV (PDF)</button></div></div></div></header>';
+  },
+  biodata: function () {
+    return Card('biodata', 'Biodata', '<dl class="mt-4 divide-y divide-slate-100 text-sm sm:grid sm:grid-cols-2 sm:gap-x-10 sm:divide-y-0">' +
+      DATA.biodata.map(function (r) { return '<div class="flex justify-between gap-4 py-2"><dt class="text-slate-500">' + esc(r[0]) + '</dt><dd class="text-right font-semibold">' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>');
+  },
+  contact: function () {
+    return Card('contact', 'Connect', '<ul class="mt-4 grid gap-3 text-sm sm:grid-cols-2 sm:gap-x-10">' +
+      DATA.contacts.map(function (c) { return '<li><a class="flex justify-between gap-3 hover:text-teal-800" href="' + esc(c[2]) + '" target="_blank" rel="noopener"><span class="text-slate-500">' + esc(c[0]) + '</span><span class="font-semibold">' + esc(c[1]) + '</span></a></li>'; }).join('') + '</ul>');
+  },
+  experience: function () {
+    return Card('experience', 'Experience', DATA.experience.map(function (e) {
+      return '<div class="mt-4 border-l-2 border-teal-700 pl-4"><h3 class="font-semibold text-slate-900">' + esc(e.title) + '</h3><p class="font-medium text-teal-800">' +
+        (e.link ? '<a href="' + esc(e.link) + '" target="_blank" rel="noopener" class="hover:underline">' + esc(e.org) + '</a>' : esc(e.org)) + '</p><p class="mt-1 text-slate-600">' + esc(e.text) + '</p></div>';
+    }).join(''));
+  },
+  education: function () {
+    return Card('education', 'Education', '<ol class="mt-4 space-y-5 border-l-2 border-slate-200 pl-4">' + DATA.education.map(function (e) {
+      return '<li><h3 class="font-semibold text-slate-900">' + esc(e.title) + (e.place ? ' – ' + esc(e.place) : '') + '</h3><p class="text-sm text-slate-500">' + esc(e.date) + '</p></li>';
+    }).join('') + '</ol>');
+  },
+  portfolio: function () {
+    return Card('portfolio', 'Portfolio', DATA.portfolio.map(function (p) {
+      return '<a href="' + esc(p.link) + '" target="_blank" rel="noopener" class="mt-4 block rounded-xl border border-slate-200 p-4 hover:border-teal-700"><h3 class="font-semibold text-slate-900">' + esc(p.title) + '</h3><p class="mt-1 text-sm text-slate-600">' + esc(p.text) + '</p></a>';
+    }).join(''));
+  },
+  gallery: function () {
+    return Card('gallery', 'Photo gallery', '<div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">' + DATA.photos.map(function (p, i) {
+      return '<button type="button" data-i="' + i + '" class="overflow-hidden rounded-xl border border-slate-200 text-left"><div class="aspect-[4/5] w-full">' +
+        (p.src ? '<img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" loading="lazy" class="h-full w-full object-cover">' : Ph('Add photo')) + '</div><p class="px-3 py-2 text-sm text-slate-700">' + esc(p.caption) + '</p></button>';
+    }).join('') + '</div>');
+  },
+  timeline: function () {
+    return Card('timeline', 'Work & project timeline', '<ol class="mt-6 space-y-8 border-l-2 border-teal-700 pl-6">' + DATA.timeline.map(function (t) {
+      var media = (t.media || []).map(function (m) {
+        var inner = m.type === 'video'
+          ? (m.src ? '<video controls preload="metadata" playsinline' + (m.poster ? ' poster="' + esc(m.poster) + '"' : '') + ' class="h-full w-full object-cover"><source src="' + esc(m.src) + '"></video>' : Ph('Add video'))
+          : (m.src ? '<img src="' + esc(m.src) + '" alt="' + esc(m.alt) + '" loading="lazy" class="h-full w-full object-cover">' : Ph('Add image'));
+        return '<div class="aspect-video overflow-hidden rounded-xl border border-slate-200">' + inner + '</div>';
+      }).join('');
+      var title = t.link ? '<a href="' + esc(t.link) + '" target="_blank" rel="noopener" class="hover:underline">' + esc(t.title) + '</a>' : esc(t.title);
+      return '<li class="relative"><span class="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full bg-teal-700 ring-4 ring-white"></span>' +
+        (t.date ? '<p class="text-sm font-semibold text-teal-800">' + esc(t.date) + '</p>' : '') + '<h3 class="display text-lg font-bold text-slate-900">' + title + '</h3><p class="mt-1 text-slate-600">' + esc(t.text) + '</p>' +
+        (media ? '<div class="mt-3 grid gap-3 sm:grid-cols-2">' + media + '</div>' : '') + '</li>';
+    }).join('') + '</ol>');
+  }
+};
+
+/* =========================================================
+   4) APP – renders enabled sections, top bar tabs, scroll-spy
+   ========================================================= */
+/* a section shows only if it is enabled AND its data is not empty / null */
+function filled(v) {
+  if (v == null || v === '') return false;
+  if (Array.isArray(v)) return v.length > 0;
+  if (typeof v === 'object') return Object.keys(v).length > 0;
+  return true;
+}
+var HAS = {
+  about:      function () { return filled(DATA.name); },
+  biodata:    function () { return filled(DATA.biodata); },
+  contact:    function () { return filled(DATA.contacts); },
+  experience: function () { return filled(DATA.experience); },
+  education:  function () { return filled(DATA.education); },
+  portfolio:  function () { return filled(DATA.portfolio); },
+  gallery:    function () { return filled(DATA.photos); },
+  timeline:   function () { return filled(DATA.timeline); }
+};
+function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]()); }
+
+(function () {
+  var on = SECTIONS.filter(isOn);
+  if (!on.length) return;
+  document.getElementById('app').innerHTML = on.map(function (s) { return COMPONENTS[s.id](); }).join('');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  var tb = document.getElementById('topbar');
+  tb.innerHTML = '<div class="mx-auto max-w-4xl px-4"><a href="#top" id="brand" class="flex w-fit items-center gap-2 pb-1 pt-2" aria-label="Back to top">' + Avatar('h-9 w-9 text-sm') +
+    '<span class="text-sm font-semibold text-slate-900 sm:text-base">' + esc(DATA.name) + '</span></a><div id="tabs" class="flex overflow-x-auto" role="navigation" aria-label="Page sections">' +
+    on.map(function (s) { return '<a href="#s-' + s.id + '" class="tab" data-t="' + s.id + '">' + esc(s.tab) + '</a>'; }).join('') + '</div></div>';
+  var bar = document.getElementById('tabs'), smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  tb.addEventListener('click', function (e) {
+    var a = e.target.closest('a'); if (!a) return; e.preventDefault();
+    if (a.id === 'brand') { window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' }); return; }
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el) el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  });
+  var current = '', ticking = false;
+  function spy() {
+    ticking = false;
+    var first = document.getElementById('s-' + on[0].id);
+    tb.classList.toggle('hidden', !(first && first.getBoundingClientRect().bottom < 56));
+    var cur = on[0].id;
+    on.forEach(function (s) { var el = document.getElementById('s-' + s.id); if (el && el.getBoundingClientRect().top <= 130) cur = s.id; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = on[on.length - 1].id;
+    if (cur === current) return; current = cur;
+    bar.querySelectorAll('.tab').forEach(function (a) {
+      if (a.dataset.t === cur) { a.setAttribute('aria-current', 'true'); bar.scrollTo({ left: a.offsetLeft - bar.clientWidth / 2 + a.offsetWidth / 2, behavior: smooth ? 'smooth' : 'auto' }); }
+      else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
+  window.addEventListener('resize', spy); spy();
+
+  /* gallery lightbox */
+  var lb = document.getElementById('lb');
+  document.getElementById('app').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-i]'); if (!b) return;
+    var p = DATA.photos[+b.dataset.i]; if (!p || !p.src) return;
+    document.getElementById('lbimg').src = p.src; document.getElementById('lbimg').alt = p.alt;
+    document.getElementById('lbcap').textContent = p.caption; lb.showModal();
+  });
+  document.getElementById('lbx').onclick = function () { lb.close(); };
+  lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+})();
+
+/* =========================================================
+   5) PDF – custom multi-page CV; follows SECTIONS (show/order)
+   ========================================================= */
+(function () {
+  var PH = 297, BOTTOM = 280, W = 210, M = 16;
+  var TEAL = [15, 118, 110], INK = [31, 42, 46], MUTED = [100, 116, 139];
+  function loadImg(src) { return new Promise(function (res) { if (!src) return res(null); var im = new Image(); im.crossOrigin = 'anonymous'; im.onload = function () { res(im); }; im.onerror = function () { res(null); }; im.src = src; }); }
+  function toCanvas(im, ratio, maxW, circle) {
+    try {
+      var sw = im.naturalWidth, sh = im.naturalHeight, cw = sw, ch = sh, sx = 0, sy = 0;
+      if (ratio) { if (sw / sh > ratio) { cw = sh * ratio; sx = (sw - cw) / 2; } else { ch = sw / ratio; sy = (sh - ch) / 2; } }
+      var k = Math.min(1, maxW / cw), c = document.createElement('canvas'); c.width = Math.round(cw * k); c.height = Math.round(ch * k);
+      var g = c.getContext('2d');
+      if (circle) { g.beginPath(); g.arc(c.width / 2, c.height / 2, c.width / 2, 0, Math.PI * 2); g.clip(); } else { g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); }
+      g.drawImage(im, sx, sy, cw, ch, 0, 0, c.width, c.height);
+      return { data: c.toDataURL(circle ? 'image/png' : 'image/jpeg', 0.88), fmt: circle ? 'PNG' : 'JPEG', ratio: cw / ch };
+    } catch (e) { return null; }
+  }
+
+  async function build() {
+    var d = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' }), y = 58;
+    function ink() { d.setTextColor(INK[0], INK[1], INK[2]); } function muted() { d.setTextColor(MUTED[0], MUTED[1], MUTED[2]); } function teal() { d.setTextColor(TEAL[0], TEAL[1], TEAL[2]); }
+    function need(h) { if (y + h > BOTTOM) { d.addPage(); y = 20; } }
+    function head(t) { need(26); teal(); d.setFont('helvetica', 'bold'); d.setFontSize(12); d.text(t.toUpperCase(), M, y); d.setDrawColor(TEAL[0], TEAL[1], TEAL[2]); d.setLineWidth(0.5); d.line(M, y + 2, W - M, y + 2); y += 10; ink(); }
+    function kv(k, v, x) { d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); d.text(k, x, y); d.setFont('helvetica', 'bold'); ink(); d.text(v, x + 32, y); }
+    function entry(title, sub, date) {
+      need(16); d.setFont('helvetica', 'bold'); d.setFontSize(11); ink(); d.text(title, M, y);
+      d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); if (date) d.text(date, W - M, y, { align: 'right' });
+      if (sub) { y += 5.5; d.text(sub, M, y); } y += 9;
+    }
+
+    /* header band + round profile photo (initials if no photo) */
+    d.setFillColor(TEAL[0], TEAL[1], TEAL[2]); d.rect(0, 0, W, 44, 'F');
+    d.setTextColor(255, 255, 255); d.setFont('helvetica', 'bold'); d.setFontSize(26); d.text(DATA.name, M, 21);
+    d.setFont('helvetica', 'normal'); d.setFontSize(12); d.text(DATA.role, M, 30); d.setFontSize(9.5); d.text(DATA.pdfLine, M, 38);
+    var cx = W - M - 16, cy = 22, pim = await loadImg(DATA.photo), pc = pim ? toCanvas(pim, 1, 500, true) : null;
+    d.setFillColor(255, 255, 255); d.circle(cx, cy, 17, 'F');
+    if (pc) d.addImage(pc.data, 'PNG', cx - 15, cy - 15, 30, 30);
+    else { d.setFillColor(TEAL[0], TEAL[1], TEAL[2]); d.circle(cx, cy, 15, 'F'); d.setTextColor(255, 255, 255); d.setFont('helvetica', 'bold'); d.setFontSize(18); d.text(DATA.initials, cx, cy + 2.5, { align: 'center' }); }
+
+    var P = {
+      about: async function () { head('Profile'); d.setFont('helvetica', 'normal'); d.setFontSize(10.5); ink(); var s = d.splitTextToSize(DATA.bio, W - 2 * M); d.text(s, M, y); y += s.length * 5.5 + 8; },
+      biodata: async function () { head('Biodata'); for (var i = 0; i < DATA.biodata.length; i += 2) { var a = DATA.biodata[i], b = DATA.biodata[i + 1]; need(8); kv(a[0], a[1], M); if (b) kv(b[0], b[1], M + 92); y += 7; } y += 6; },
+      experience: async function () { head('Experience'); DATA.experience.forEach(function (e) { entry(e.title, e.org + (e.link ? '  (' + e.link.replace('https://', '') + ')' : ''), ''); }); },
+      education: async function () { head('Education'); DATA.education.forEach(function (e) { entry(e.title, e.place, e.date.replace('–', '-')); }); },
+      portfolio: async function () { head('Portfolio'); DATA.portfolio.forEach(function (p) { entry(p.title, p.link.replace('https://', ''), ''); }); },
+      timeline: async function () {
+        if (!DATA.timeline.length) return; head('Work & project timeline');
+        var cw = (W - 2 * M - 6 - 4) / 2;
+        for (var a = 0; a < DATA.timeline.length; a++) {
+          var t = DATA.timeline[a], imgs = [], vids = [], ms = t.media || [];
+          for (var b = 0; b < ms.length; b++) {
+            if (ms[b].type === 'image' && ms[b].src) { var im = await loadImg(ms[b].src), c = im ? toCanvas(im, 0, 1000, false) : null; if (c) imgs.push(c); }
+            else if (ms[b].type === 'video' && ms[b].src) vids.push(ms[b].src);
+          }
+          d.setFont('helvetica', 'normal'); d.setFontSize(10); var lines = d.splitTextToSize(t.text || '', W - 2 * M - 6); need(14 + lines.length * 5);
+          d.setFillColor(TEAL[0], TEAL[1], TEAL[2]); d.circle(M + 1.5, y - 1.2, 1.4, 'F');
+          d.setFont('helvetica', 'bold'); d.setFontSize(11); ink(); d.text(t.title, M + 6, y);
+          if (t.date) { d.setFont('helvetica', 'normal'); d.setFontSize(10); teal(); d.text(t.date.replace('–', '-'), W - M, y, { align: 'right' }); }
+          y += 5.5; d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); d.text(lines, M + 6, y); y += lines.length * 5 + 2;
+          var rowY = y, rowH = 0;
+          for (var n = 0; n < imgs.length; n++) {
+            var w = cw, h = cw / imgs[n].ratio; if (h > 55) { h = 55; w = h * imgs[n].ratio; }
+            if (n % 2 === 0) { need(h + 4); rowY = y; rowH = 0; }
+            d.addImage(imgs[n].data, imgs[n].fmt, M + 6 + (n % 2) * (cw + 4), rowY, w, h); rowH = Math.max(rowH, h);
+            if (n % 2 === 1 || n === imgs.length - 1) y = rowY + rowH + 4;
+          }
+          for (var v = 0; v < vids.length; v++) { need(7); d.setFontSize(9); teal(); d.textWithLink('Video: ' + vids[v], M + 6, y, { url: vids[v] }); y += 6; }
+          y += 5;
+        }
+      },
+      gallery: async function () {
+        var ph = [];
+        for (var p = 0; p < DATA.photos.length; p++) { if (!DATA.photos[p].src) continue; var gi = await loadImg(DATA.photos[p].src), gc = gi ? toCanvas(gi, 0.8, 700, false) : null; if (gc) ph.push({ c: gc, cap: DATA.photos[p].caption }); }
+        if (!ph.length) return; head('Photo gallery');
+        var gw = (W - 2 * M - 8) / 3, gh = gw / 0.8;
+        ph.forEach(function (it, i) {
+          var col = i % 3; if (col === 0) need(gh + 10);
+          d.addImage(it.c.data, 'JPEG', M + col * (gw + 4), y, gw, gh);
+          d.setFont('helvetica', 'normal'); d.setFontSize(8.5); muted(); d.text(it.cap || '', M + col * (gw + 4) + gw / 2, y + gh + 4, { align: 'center' });
+          if (col === 2 || i === ph.length - 1) y += gh + 10;
+        });
+      },
+      contact: async function () {
+        need(62); head('Contact & links');
+        DATA.contacts.forEach(function (l) { need(8); d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); d.text(l[0], M, y); teal(); d.textWithLink(l[1], M + 32, y, { url: l[2] }); y += 7; });
+      }
+    };
+    var cOn = false;   /* contact always goes last in the PDF */
+    for (var i = 0; i < SECTIONS.length; i++) { var s = SECTIONS[i]; if (!isOn(s) || !P[s.id]) continue; if (s.id === 'contact') { cOn = true; continue; } await P[s.id](); }
+    if (cOn) await P.contact();
+
+    var pages = d.getNumberOfPages();
+    for (var q = 1; q <= pages; q++) { d.setPage(q); d.setFont('helvetica', 'normal'); d.setFontSize(8.5); muted(); d.text(DATA.name + '  |  CV', M, PH - 9); d.text('Page ' + q + ' of ' + pages, W - M, PH - 9, { align: 'right' }); }
+    return d;
+  }
+
+  var btn = document.getElementById('pdfbtn');
+  if (btn) btn.addEventListener('click', async function () {
+    var name = 'Mirza-Mojahid-CV.pdf', d, label = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Preparing PDF...';
+    try { d = await build(); } catch (e) { btn.disabled = false; btn.textContent = label; return; }
+    try {
+      var dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null;
+      if (dl) await dl.save({ filename: name, data: d.output('blob') }); else d.save(name);
+    } catch (e) { if (!e || e.code !== 'declined') { try { d.save(name); } catch (_) {} } }
+    btn.disabled = false; btn.textContent = label;
+  });
+})();
+</script>
 </body>
 </html>
