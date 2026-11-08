@@ -57,7 +57,8 @@
 
   /* ================= PDF Template ================= */
   #pdf-template {
-    position: fixed;
+    /* 💡 ফিক্সড এর পরিবর্তে অ্যাবসোলিউট করা হলো, যাতে হেডার ডুপ্লিকেট না হয় */
+    position: absolute; 
     top: 0;
     left: -10000px;
     width: 700px;
@@ -132,13 +133,13 @@
   
   /* 💡 ২টি ছবি হলে (নিচে-উপরে, ৪৮% প্রস্থ এবং পেজের অর্ধেক উচ্চতা) */
   #pdf-template .pdf-gallery-grid.grid-2 { 
-    grid-template-columns: 48%; /* ৪৮% প্রস্থ */
-    grid-template-rows: 1fr 1fr; /* ২টি সমান উচ্চতা (পেজের অর্ধেক করে) */
-    justify-content: center; /* মাঝখানে সেন্টার করবে */
+    grid-template-columns: 48%; 
+    grid-template-rows: 1fr 1fr; 
+    justify-content: center; 
     height: 870px; 
   }
   
-  /* ৩টি ছবি হলে (Grid on 1 page) */
+  /* ৩টি ছবি হলে */
   #pdf-template .pdf-gallery-grid.grid-3 { 
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 1fr 1fr;
@@ -146,7 +147,7 @@
   }
   #pdf-template .grid-3 .pdf-gallery-item:first-child { grid-column: span 2; }
   
-  /* ৪টি ছবি হলে (Grid on 1 page) */
+  /* ৪টি ছবি হলে */
   #pdf-template .pdf-gallery-grid.grid-4 { 
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 1fr 1fr;
@@ -457,7 +458,6 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
    ৫) PDF Generation (Smart Slicing & Full Page Images)
    ========================================================= */
 (function () {
-  // 💡 ইন-অ্যাপ ব্রাউজার ডিটেক্ট এবং রিডাইরেক্ট করার ফাংশন
   function redirectToExternalBrowser() {
     var ua = navigator.userAgent || navigator.vendor || window.opera;
     var isInApp = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || 
@@ -466,23 +466,17 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
 
     if (isInApp) {
       var currentUrl = window.location.href;
-      
       if (/Android/i.test(ua)) {
-        // অ্যান্ড্রয়েডের জন্য Chrome-এ ওপেন করার Intent
         var urlNoProtocol = currentUrl.replace(/^https?:\/\//, '');
         var intentUrl = 'intent://' + urlNoProtocol + '#Intent;scheme=https;package=com.android.chrome;end';
         window.location.href = intentUrl;
-        
-        setTimeout(function() {
-          window.location.href = currentUrl; // ফলব্যাক
-        }, 1500);
+        setTimeout(function() { window.location.href = currentUrl; }, 1500);
       } else if (/iPhone|iPad|iPod/i.test(ua)) {
-        // iOS-এর জন্য অ্যালার্ট
         alert("PDF ডাউনলোড করতে সমস্যা হচ্ছে?\n\nঅনুগ্রহ করে উপরের ডানদিকের '⋮' বা '...' মেনুতে ক্লিক করে 'Open in Safari' বা 'Open in Browser' অপশনটি সিলেক্ট করুন।");
       }
-      return true; // রিডাইরেক্ট হয়েছে
+      return true;
     }
-    return false; // স্বাভাবিক ব্রাউজার
+    return false;
   }
 
   function rowHtml(r) {
@@ -576,7 +570,8 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
     await waitImages(el);
 
     var elRect = el.getBoundingClientRect();
-    var sections = Array.from(el.querySelectorAll('.pdf-sec, .pdf-gallery-item'));
+    // 💡 হেডারকেও boundsToAvoid-এ যুক্ত করা হলো, যাতে হেডারের উপর দিয়ে পেজ কাট না হয়
+    var sections = Array.from(el.querySelectorAll('.pdf-header, .pdf-sec, .pdf-gallery-item'));
     var boundsToAvoid = sections.map(function(node) {
         var rect = node.getBoundingClientRect();
         return { 
@@ -652,14 +647,10 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
   var btn = document.getElementById('pdfbtn');
   if (btn) {
     btn.addEventListener('click', async function () {
-      
-      // 💡 এখানে চেক করা হচ্ছে ইউজার মেসেঞ্জার/ফেসবুকে আছে কিনা। 
-      // থাকলে তাকে ব্রাউজারে পাঠিয়ে দেওয়া হবে এবং নিচের কোড রান হবে না।
       if (redirectToExternalBrowser()) {
         return; 
       }
 
-      // যদি স্বাভাবিক ব্রাউজার হয়, তবেই PDF তৈরি হবে
       if (btn.disabled) return;
       var label = btn.textContent;
       btn.disabled = true;
