@@ -57,7 +57,6 @@
 
   /* ================= PDF Template ================= */
   #pdf-template {
-    /* 💡 ফিক্সড এর পরিবর্তে অ্যাবসোলিউট করা হলো, যাতে হেডার ডুপ্লিকেট না হয় */
     position: absolute; 
     top: 0;
     left: -10000px;
@@ -75,16 +74,38 @@
     text-rendering: optimizeLegibility;
   }
   
+  /* 💡 Flexbox সরিয়ে Absolute পজিশনিং দেওয়া হলো যাতে হেডার ডুপ্লিকেট না হয় */
   #pdf-template .pdf-header {
     background: #0f766e;
     color: #ffffff;
     padding: 24px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
     margin: 0;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+  }
+  #pdf-template .pdf-header > div:first-child {
+    padding-right: 110px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #pdf-template #pdf-photo {
+    position: absolute;
+    right: 28px;
+    top: 24px;
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #0d9488;
+    display: block;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 86px;
   }
   
   #pdf-template .pdf-body { padding: 22px 28px 30px; }
@@ -133,13 +154,16 @@
   
   /* 💡 ২টি ছবি হলে (নিচে-উপরে, ৪৮% প্রস্থ এবং পেজের অর্ধেক উচ্চতা) */
   #pdf-template .pdf-gallery-grid.grid-2 { 
-    grid-template-columns: 48%; 
+    grid-template-columns: 1fr; 
     grid-template-rows: 1fr 1fr; 
-    justify-content: center; 
+    justify-items: center; 
     height: 870px; 
   }
+  #pdf-template .grid-2 .pdf-gallery-item {
+    width: 48%;
+  }
   
-  /* ৩টি ছবি হলে */
+  /* ৩টি ছবি হলে (Grid on 1 page) */
   #pdf-template .pdf-gallery-grid.grid-3 { 
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 1fr 1fr;
@@ -147,7 +171,7 @@
   }
   #pdf-template .grid-3 .pdf-gallery-item:first-child { grid-column: span 2; }
   
-  /* ৪টি ছবি হলে */
+  /* ৪টি ছবি হলে (Grid on 1 page) */
   #pdf-template .pdf-gallery-grid.grid-4 { 
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 1fr 1fr;
@@ -202,7 +226,7 @@
       <div style="font-size:13px; margin-top:4px; opacity:.95;">সফটওয়্যার ইঞ্জিনিয়ার ও প্রতিষ্ঠাতা, সহায়ক টেকনোলজিস</div>
       <div style="font-size:11.5px; margin-top:6px; opacity:.85;">🌐 https://shohayok.com</div>
     </div>
-    <div id="pdf-photo" style="width:86px; height:86px; border-radius:50%; overflow:hidden; background:#0d9488; display:flex; align-items:center; justify-content:center; color:#fff; font-size:26px; font-weight:700; flex:0 0 auto;">মম</div>
+    <div id="pdf-photo">মম</div>
   </div>
 
   <div class="pdf-body">
@@ -563,14 +587,16 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
 
   async function makePdf() {
     var el = document.getElementById('pdf-template');
-    var SCALE = 3;
+    var SCALE = 2; // 💡 2 দেওয়া হলো, 3 দিলে কিছু ফোনে গ্লিচ করে
+
+    window.scrollTo(0, 0);
+    await new Promise(function(r) { setTimeout(r, 100); }); // স্ক্রল হওয়ার জন্য অপেক্ষা
 
     await ensureFonts();
     buildPdfContent();
     await waitImages(el);
 
     var elRect = el.getBoundingClientRect();
-    // 💡 হেডারকেও boundsToAvoid-এ যুক্ত করা হলো, যাতে হেডারের উপর দিয়ে পেজ কাট না হয়
     var sections = Array.from(el.querySelectorAll('.pdf-header, .pdf-sec, .pdf-gallery-item'));
     var boundsToAvoid = sections.map(function(node) {
         var rect = node.getBoundingClientRect();
@@ -588,8 +614,8 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
       logging: false,
       width: el.offsetWidth,
       height: el.offsetHeight,
-      windowWidth: el.offsetWidth,
-      windowHeight: el.offsetHeight
+      scrollX: 0, // 💡 ক্যানভাস রেন্ডারিং ফিক্স
+      scrollY: 0
     });
 
     var jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
