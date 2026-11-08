@@ -1,118 +1,340 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mirza Mojahid – Software Engineer | Bio &amp; CV</title>
+
+<title>মির্জা মোজাহিদ – বিবাহ সিভি</title>
+<meta name="description" content="মির্জা মোজাহিদ এর বিবাহ সিভি / Marriage Biodata। সফটওয়্যার ইঞ্জিনিয়ার ও শহয়ক টেকনোলজিসের প্রতিষ্ঠাতা।">
+<meta name="author" content="মির্জা মোজাহিদ">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mirzamojahid.shohayok.com/">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="মির্জা মোজাহিদ – বিবাহ সিভি">
+<meta property="og:description" content="সফটওয়্যার ইঞ্জিনিয়ার ও শহয়ক টেকনোলজিসের প্রতিষ্ঠাতা। বিবাহ সিভি।">
+<meta property="og:url" content="https://mirzamojahid.shohayok.com/">
+<meta property="og:image" content="https://mirzamojahid.shohayok.com/img/me.jpg">
+<meta property="og:image:alt" content="মির্জা মোজাহিদ">
+<meta property="og:locale" content="bn_BD">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="মির্জা মোজাহিদ – বিবাহ সিভি">
+<meta name="twitter:description" content="সফটওয়্যার ইঞ্জিনিয়ার ও শহয়ক টেকনোলজিসের প্রতিষ্ঠাতা।">
+<meta name="twitter:image" content="https://mirzamojahid.shohayok.com/img/me.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "মির্জা মোজাহিদ",
+  "jobTitle": "সফটওয়্যার ইঞ্জিনিয়ার",
+  "url": "https://mirzamojahid.shohayok.com/",
+  "image": "https://mirzamojahid.shohayok.com/img/me.jpg",
+  "sameAs": [
+    "https://linkedin.com/in/mirzamojahid",
+    "https://github.com/mirzamojahid"
+  ]
+}
+</script>
+
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root { color-scheme: light; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
-  body { background:#f6f8f7; color:#1f2a2e; font-family:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif; line-height:1.6; }
+  body { background:#f6f8f7; color:#1f2a2e; font-family:'Hind Siliguri',system-ui,sans-serif; line-height:1.7; }
   body::before { content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:#fff; }
-  .display { font-family:'Fraunces',Georgia,'Times New Roman',serif; }
+  .display { font-family:'Noto Serif Bengali',Georgia,serif; }
   a:focus-visible, button:focus-visible { outline:2px solid #0f766e; outline-offset:2px; }
   [id^="s-"] { scroll-margin-top: 112px; }
   #tabs { scrollbar-width:none; } #tabs::-webkit-scrollbar { display:none; }
-  .tab { display:flex; align-items:center; justify-content:center; flex:1 0 auto; padding:.5rem .9rem; font-size:.8125rem; font-weight:500; color:#475569; white-space:nowrap; border-bottom:3px solid transparent; }
+  .tab { display:flex; align-items:center; justify-content:center; flex:1 0 auto; padding:.5rem .9rem; font-size:.875rem; font-weight:500; color:#475569; white-space:nowrap; border-bottom:3px solid transparent; }
   .tab:hover { background:#f1f5f9; }
   .tab[aria-current="true"] { color:#0f766e; font-weight:600; border-bottom-color:#0f766e; }
+
+  /* ================= PDF Template ================= */
+  #pdf-template {
+    position: fixed;
+    top: 0;
+    left: -10000px;
+    width: 700px;
+    background: #ffffff;
+    color: #1f2a2e;
+    font-family: 'Hind Siliguri', 'Noto Serif Bengali', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    pointer-events: none;
+    z-index: -1;
+    margin: 0;
+    padding: 0;
+    font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
+    text-rendering: optimizeLegibility;
+  }
+  
+  #pdf-template .pdf-header {
+    background: #0f766e;
+    color: #ffffff;
+    padding: 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  #pdf-template .pdf-body { padding: 22px 28px 30px; }
+  
+  #pdf-template .pdf-sec { margin-top: 16px; page-break-inside: avoid; break-inside: avoid; }
+  #pdf-template .pdf-sec:first-child { margin-top: 0; }
+  #pdf-template .pdf-sec-title {
+    color: #0f766e;
+    font-weight: 700;
+    font-size: 15.5px;
+    border-bottom: 2px solid #0f766e;
+    padding-bottom: 3px;
+    margin-bottom: 7px;
+    letter-spacing: .4px;
+  }
+  #pdf-template .pdf-sec:last-child { padding-top: 25px; }
+
+  #pdf-template .pdf-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
+  #pdf-template .pdf-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12.5px;
+    padding: 3px 0;
+    border-bottom: 1px solid #eef2f5;
+  }
+  #pdf-template .pdf-label { color: #64748b; white-space: nowrap; }
+  #pdf-template .pdf-value { font-weight: 600; text-align: right; }
+  #pdf-template .pdf-edu { margin-bottom: 7px; }
+  #pdf-template .pdf-edu-t { font-weight: 600; font-size: 12.5px; }
+  #pdf-template .pdf-edu-s { font-size: 11.5px; color: #64748b; }
+
+  /* ================= PDF Gallery (Full Height) ================= */
+  #pdf-template .pdf-gallery-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 8px;
+    width: 100%;
+  }
+  
+  /* ১টি ছবি হলে (Full Page) */
+  #pdf-template .pdf-gallery-grid.grid-1 { 
+    grid-template-columns: 1fr; 
+    height: 870px; 
+  }
+  
+  /* 💡 ২টি ছবি হলে (নিচে-উপরে, ৪৮% প্রস্থ এবং পেজের অর্ধেক উচ্চতা) */
+  #pdf-template .pdf-gallery-grid.grid-2 { 
+    grid-template-columns: 48%; /* ৪৮% প্রস্থ */
+    grid-template-rows: 1fr 1fr; /* ২টি সমান উচ্চতা (পেজের অর্ধেক করে) */
+    justify-content: center; /* মাঝখানে সেন্টার করবে */
+    height: 870px; 
+  }
+  
+  /* ৩টি ছবি হলে (Grid on 1 page) */
+  #pdf-template .pdf-gallery-grid.grid-3 { 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 1fr 1fr;
+    height: 870px; 
+  }
+  #pdf-template .grid-3 .pdf-gallery-item:first-child { grid-column: span 2; }
+  
+  /* ৪টি ছবি হলে (Grid on 1 page) */
+  #pdf-template .pdf-gallery-grid.grid-4 { 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-rows: 1fr 1fr;
+    height: 870px; 
+  }
+
+  #pdf-template .pdf-gallery-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+  
+  #pdf-template .pdf-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 💡 ১ এবং ২টি ছবির ক্ষেত্রে ছবি কাটবে না, ব্লকের মাঝখানে সেন্টারে থাকবে */
+  #pdf-template .grid-1 .pdf-gallery-item img,
+  #pdf-template .grid-2 .pdf-gallery-item img {
+    object-fit: contain;
+    background-color: #ffffff;
+  }
 </style>
 </head>
 <body>
 <div id="topbar" class="fixed inset-x-0 z-20 hidden border-b border-slate-200 bg-white/95 backdrop-blur" style="top:env(safe-area-inset-top,0px)"></div>
 <main id="app" class="mx-auto max-w-4xl space-y-6 px-4 py-8 sm:py-12"></main>
-<footer class="pb-10 text-center text-sm text-slate-500">© <span id="yr"></span> Mirza Mojahid</footer>
+<footer class="pb-10 text-center text-sm text-slate-500">© <span id="yr"></span> মির্জা মোজাহিদ</footer>
+
 <dialog id="lb" class="m-auto w-[92vw] max-w-3xl rounded-2xl bg-white p-3">
-  <button id="lbx" class="mb-2 ml-auto block rounded-lg border border-slate-300 px-3 py-1 text-sm font-semibold">Close</button>
+  <button id="lbx" class="mb-2 ml-auto block rounded-lg border border-slate-300 px-3 py-1 text-sm font-semibold">বন্ধ করুন</button>
   <img id="lbimg" alt="" class="max-h-[75vh] w-full object-contain">
   <p id="lbcap" class="mt-2 text-center text-sm text-slate-600"></p>
 </dialog>
 
+<!-- ================= PDF Template ================= -->
+<div id="pdf-template" aria-hidden="true">
+  <div class="pdf-header">
+    <div>
+      <div style="font-size:26px; font-weight:700; font-family:'Noto Serif Bengali', serif; line-height:1.3;">মির্জা মোজাহিদ</div>
+      <div style="font-size:13px; margin-top:4px; opacity:.95;">সফটওয়্যার ইঞ্জিনিয়ার ও প্রতিষ্ঠাতা, সহায়ক টেকনোলজিস</div>
+      <div style="font-size:11.5px; margin-top:6px; opacity:.85;">🌐 https://shohayok.com</div>
+    </div>
+    <div id="pdf-photo" style="width:86px; height:86px; border-radius:50%; overflow:hidden; background:#0d9488; display:flex; align-items:center; justify-content:center; color:#fff; font-size:26px; font-weight:700; flex:0 0 auto;">মম</div>
+  </div>
+
+  <div class="pdf-body">
+    <div class="pdf-sec">
+      <div class="pdf-sec-title">ব্যক্তিগত তথ্য</div>
+      <div id="pdf-personal" class="pdf-grid"></div>
+    </div>
+
+    <div class="pdf-sec">
+      <div class="pdf-sec-title">পারিবারিক তথ্য</div>
+      <div id="pdf-family" class="pdf-grid"></div>
+    </div>
+
+    <div class="pdf-sec">
+      <div class="pdf-sec-title">শিক্ষাগত যোগ্যতা</div>
+      <div id="pdf-education"></div>
+    </div>
+
+    <div class="pdf-sec">
+      <div class="pdf-sec-title">পেশা</div>
+      <div id="pdf-profession"></div>
+    </div>
+
+    <div class="pdf-sec">
+      <div class="pdf-sec-title">শারীরিক তথ্য ও আগ্রহ</div>
+      <div id="pdf-physical" class="pdf-grid"></div>
+    </div>
+
+    <!-- PDF Gallery Section -->
+    <div class="pdf-sec">
+      <div class="pdf-sec-title">ছবি</div>
+      <div id="pdf-gallery" class="pdf-gallery-grid"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* =========================================================
-   1) SECTIONS – each section is its own component (see 3).
-      show:false  -> hide it      | delete the line -> remove it
-      move a line -> change order | tab = label in the top bar
-      A section whose data is empty / null is hidden automatically
-      (page card, top bar tab and PDF).
+   ১) সেকশনসমূহ
    ========================================================= */
 var SECTIONS = [
-  { id: 'about',      tab: 'About',      show: true },
-  { id: 'biodata',    tab: 'Biodata',    show: true },
-  { id: 'contact',    tab: 'Contact',    show: true },
-  { id: 'experience', tab: 'Experience', show: true },
-  { id: 'education',  tab: 'Education',  show: true },
-  { id: 'portfolio',  tab: 'Portfolio',  show: true },
-  { id: 'gallery',    tab: 'Gallery',    show: true },
-  { id: 'timeline',   tab: 'Timeline',   show: true }
+  { id: 'about',      tab: 'পরিচিতি',     show: true },
+  { id: 'personal',   tab: 'ব্যক্তিগত',   show: true },
+  { id: 'family',     tab: 'পারিবারিক',   show: true },
+  { id: 'education',  tab: 'শিক্ষা',      show: true },
+  { id: 'profession', tab: 'পেশা',        show: true },
+  { id: 'physical',   tab: 'শারীরিক',     show: true },
+  { id: 'contact',    tab: 'যোগাযোগ',     show: true },
+  { id: 'gallery',    tab: 'ছবি',         show: true }
 ];
 
 /* =========================================================
-   2) DATA – edit your information here (page + PDF use it)
+   ২) ডেটা
    ========================================================= */
 var AGE = new Date().getFullYear() - 2000;
+
 var DATA = {
-  name: 'Mirza Mojahid', initials: 'MM', photo: 'img/me.jpg',
-  role: 'Software Engineer & Founder, Shohayok Technologies',
-  bio: 'B.Sc. in Computer Science & Engineering. I work with clients to design, build and deliver professional software and business solutions through my own company, Shohayok Technologies.',
-  pdfLine: 'shohayok.com   |   linkedin.com/in/mirzamojahid',
-  buttons: [['Visit Shohayok', 'https://shohayok.com', true], ['View LinkedIn', 'https://linkedin.com/in/mirzamojahid', false]],
-  biodata: [
-    ['Full name', 'Mirza Mojahid'], ['Gender', 'Male'],
-    ['Date of birth', '1 January 2000'], ['Age', AGE + ' years'],
-    ['Religion', 'Islam'], ['Marital status', 'Single'],
-    ['Occupation', 'Software Engineer'], ['Employment', 'Self-employed'],
-    ['Education', 'B.Sc. in CSE']
+  name: 'মির্জা মোজাহিদ',
+  initials: 'মম',
+  photo: 'img/me.jpg',
+  role: 'সফটওয়্যার ইঞ্জিনিয়ার ও প্রতিষ্ঠাতা, সহায়ক টেকনোলজিস',
+  bio: 'ড্যাফোডিল ইন্টারন্যাশনাল ইউনিভার্সিটি থেকে বিএসসি ইন কম্পিউটার সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং-এ সম্পন্ন। বর্তমানে নিজের এজেন্সী সহায়ক টেকনোলজিসের মাধ্যমে ক্লায়েন্টদের জন্য সফটওয়্যার ও ব্যবসায়িক সমাধান তৈরি করছি।',
+
+  buttons: [
+    ['ওয়েবসাইট দেখুন', 'https://shohayok.com', true],
+    ['লিংকডইন', 'https://linkedin.com/in/mirzamojahid', false]
   ],
-  contacts: [   /* [label, text shown, link] */
-    ['Website', 'shohayok.com', 'https://shohayok.com'],
-    ['LinkedIn', 'linkedin.com/in/mirzamojahid', 'https://linkedin.com/in/mirzamojahid'],
-    ['GitHub', 'github.com/mirzamojahid', 'https://github.com/mirzamojahid'],
-    ['Facebook', 'fb.com/mirzamojahid.mm', 'https://fb.com/mirzamojahid.mm'],
-    ['Telegram', 'telegram.com/mirzamojahid', 'https://telegram.com/mirzamojahid'],
-    ['WhatsApp', 'whatsapp.com/mirzamojahid', 'https://whatsapp.com/mirzamojahid']
+
+  personal: [
+    ['পূর্ণ নাম', 'মির্জা মোজাহিদ'],
+    ['জন্ম তারিখ', '১ জানুয়ারি ২০০০'],
+    ['বয়স', AGE + ' বছর'],
+    ['লিঙ্গ', 'পুরুষ'],
+    ['ধর্ম', 'ইসলাম'],
+    ['বৈবাহিক অবস্থা', 'অবিবাহিত'],
+    ['রক্তের গ্রুপ', 'বি+'],
+    ['জাতীয়তা', 'বাংলাদেশী'],
+    ['স্থায়ী ঠিকানা', 'মির্জাবাড়ি, বানিকুঞ্জ, মাদারগঞ্জ পৌরসভা'],
+    ['বর্তমান ঠিকানা', 'মির্জাবাড়ি, বানিকুঞ্জ, মাদারগঞ্জ পৌরসভা']
   ],
-  experience: [
-    { title: 'Software Engineer & Founder', org: 'Shohayok Technologies', link: 'https://shohayok.com',
-      text: 'Running my own company, working with clients to design, build and deliver professional software and business solutions.' }
+
+  family: [
+    ['পিতার নাম', 'মির্জা মনজুরুল ইসলাম'],
+    ['পিতার পেশা', 'ব্যবসায়ী'],
+    ['মাতার নাম', 'লিপি মির্জা'],
+    ['মাতার পেশা', 'গৃহিণী'],
+    ['ভাই-বোন', '৩ ভাই, ১ বোন (আমি তৃতীয় — ২ বড় ভাই ও ১ ছোট বোন)'],
+    ['পরিবারের অবস্থা', 'মধ্যবিত্ত']
   ],
+
   education: [
-    { title: 'B.Sc. in Computer Science & Engineering', place: '', date: '2020 – 2024' },
-    { title: 'HSC', place: 'Agricultural University College', date: '2018' },
-    { title: 'SSC', place: 'Balijuri F.M. High School', date: '2016' }
+    { title: 'বি.এসসি. ইন কম্পিউটার সায়েন্স অ্যান্ড ইঞ্জিনিয়ারিং', place: 'ড্যাফোডিল ইন্টারন্যাশনাল ইউনিভার্সিটি', date: '২০২০ – ২০২৪' },
+    { title: 'এইচএসসি', place: 'এগ্রিকালচারাল ইউনিভার্সিটি কলেজ', date: '২০১৮' },
+    { title: 'এসএসসি', place: 'বালিজুড়ি এফ.এম. হাই স্কুল', date: '২০১৬' }
   ],
-  portfolio: [
-    // { title: 'Shohayok Technologies', text: 'My software company. See the services and work on shohayok.com.', link: 'https://shohayok.com' },
-    // { title: 'Open-source work', text: 'Code and repositories on GitHub.', link: 'https://github.com/mirzamojahid' }
+
+  profession: [
+    { title: 'সফটওয়্যার ইঞ্জিনিয়ার ও প্রতিষ্ঠাতা', org: 'সহায়ক টেকনোলজিস', link: 'https://shohayok.com',
+      text: 'নিজের এজেন্সির মাধ্যমে ক্লায়েন্টদের জন্য পেশাদার সফটওয়্যার ও ব্যবসায়িক সমাধান তৈরি করছি।' }
   ],
-  photos: [     /* src: 'img/photo1.jpg'  (empty = placeholder, skipped in PDF) */
-    // { src: '', alt: 'Portrait', caption: 'Portrait' },
-    // { src: '', alt: 'Casual photo', caption: 'Casual' },
-    // { src: '', alt: 'Formal photo', caption: 'Formal' },
-    // { src: '', alt: 'Graduation photo', caption: 'Graduation, 2024' },
-    // { src: '', alt: 'At work', caption: 'At work' },
-    // { src: '', alt: 'Family and friends', caption: 'Family & friends' }
+
+  physical: [
+    ['উচ্চতা', '৫ ফুট ১০ ইঞ্চি'],
+    ['ওজন', '৬৪ কেজি'],
+    ['গাত্রবর্ণ', 'ফর্সা'],
+    ['রক্তের গ্রুপ', 'বি+'],
+    ['চোখের রং', 'কালো'],
+    ['শখ / আগ্রহ', 'প্রোগ্রামিং, টেকনোলজি, ভ্রমণ']
   ],
-  timeline: [   
-    // { date: '2020 – 2024', title: 'B.Sc. in Computer Science & Engineering', text: 'Completed my bachelor’s degree in CSE.',
-    //   media: [{ type: 'image', src: '', alt: 'University' }] },
-    // { date: '', title: 'Shohayok Technologies', link: 'https://shohayok.com',
-    //   text: 'Started my own software company and work as its Software Engineer, building professional business solutions for clients.',
-    //   media: [{ type: 'image', src: '', alt: 'Shohayok Technologies' }, { type: 'video', src: '', poster: '' }] }
+
+  contacts: [
+    ['ওয়েবসাইট', 'shohayok.com', 'https://shohayok.com'],
+    ['লিংকডইন', 'linkedin.com/in/mirzamojahid', 'https://linkedin.com/in/mirzamojahid'],
+    ['গিটহাব', 'github.com/mirzamojahid', 'https://github.com/mirzamojahid'],
+    ['ফেসবুক', 'fb.com/mirzamojahid.mm', 'https://fb.com/mirzamojahid.mm']
+  ],
+
+  photos: [
+    { src: 'img/photo1.jpeg', alt: 'ছবি ১', caption: '' },
+    { src: 'img/photo2.jpg', alt: 'ছবি ২', caption: '' },
+  
   ]
 };
 
 /* =========================================================
-   3) COMPONENTS – one function per section
+   ৩) কম্পোনেন্টস
    ========================================================= */
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 function Card(id, title, inner) { return '<section id="s-' + id + '" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8"><h2 class="display text-xl font-bold text-slate-900">' + esc(title) + '</h2>' + inner + '</section>'; }
 function Ph(label) { return '<div class="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">' + esc(label) + '</div>'; }
 function Avatar(cls) {
   return '<div class="display relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-teal-700 font-bold text-white ' + cls + '"><span>' + esc(DATA.initials) + '</span>' +
-    (DATA.photo ? '<img src="' + esc(DATA.photo) + '" alt="' + esc(DATA.name) + '" class="absolute inset-0 h-full w-full object-cover" onerror="this.remove()">' : '') + '</div>';
+    (DATA.photo ? '<img src="' + esc(DATA.photo) + '" alt="' + esc(DATA.name) + '" class="absolute inset-0 h-full w-full object-cover" width="112" height="112" onerror="this.remove()">' : '') + '</div>';
 }
 
 var COMPONENTS = {
@@ -123,58 +345,53 @@ var COMPONENTS = {
     return '<header id="s-about" class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10"><div class="flex flex-col gap-6 sm:flex-row sm:items-center">' + Avatar('h-28 w-28 text-4xl') +
       '<div><h1 class="display text-3xl font-bold text-slate-900 sm:text-4xl">' + esc(DATA.name) + '</h1><p class="mt-1 text-lg font-medium text-teal-800">' + esc(DATA.role) + '</p>' +
       '<p class="mt-3 max-w-xl text-slate-600">' + esc(DATA.bio) + '</p><div class="mt-5 flex flex-wrap gap-3">' + b +
-      '<button id="pdfbtn" type="button" class="rounded-lg border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-800 hover:bg-slate-50">Download CV (PDF)</button></div></div></div></header>';
+      '<button id="pdfbtn" type="button" class="rounded-lg border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60">সিভি ডাউনলোড (PDF)</button></div></div></div></header>';
   },
-  biodata: function () {
-    return Card('biodata', 'Biodata', '<dl class="mt-4 divide-y divide-slate-100 text-sm sm:grid sm:grid-cols-2 sm:gap-x-10 sm:divide-y-0">' +
-      DATA.biodata.map(function (r) { return '<div class="flex justify-between gap-4 py-2"><dt class="text-slate-500">' + esc(r[0]) + '</dt><dd class="text-right font-semibold">' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>');
+
+  personal: function () {
+    return Card('personal', 'ব্যক্তিগত তথ্য', '<dl class="mt-4 divide-y divide-slate-100 text-sm sm:grid sm:grid-cols-2 sm:gap-x-10 sm:divide-y-0">' +
+      DATA.personal.map(function (r) { return '<div class="flex justify-between gap-4 py-2.5"><dt class="text-slate-500">' + esc(r[0]) + '</dt><dd class="text-right font-semibold">' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>');
   },
-  contact: function () {
-    return Card('contact', 'Connect', '<ul class="mt-4 grid gap-3 text-sm sm:grid-cols-2 sm:gap-x-10">' +
-      DATA.contacts.map(function (c) { return '<li><a class="flex justify-between gap-3 hover:text-teal-800" href="' + esc(c[2]) + '" target="_blank" rel="noopener"><span class="text-slate-500">' + esc(c[0]) + '</span><span class="font-semibold">' + esc(c[1]) + '</span></a></li>'; }).join('') + '</ul>');
+
+  family: function () {
+    return Card('family', 'পারিবারিক তথ্য', '<dl class="mt-4 divide-y divide-slate-100 text-sm sm:grid sm:grid-cols-2 sm:gap-x-10 sm:divide-y-0">' +
+      DATA.family.map(function (r) { return '<div class="flex justify-between gap-4 py-2.5"><dt class="text-slate-500">' + esc(r[0]) + '</dt><dd class="text-right font-semibold">' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>');
   },
-  experience: function () {
-    return Card('experience', 'Experience', DATA.experience.map(function (e) {
+
+  education: function () {
+    return Card('education', 'শিক্ষাগত যোগ্যতা', '<ol class="mt-4 space-y-5 border-l-2 border-slate-200 pl-4">' + DATA.education.map(function (e) {
+      return '<li><h3 class="font-semibold text-slate-900">' + esc(e.title) + (e.place ? ' – ' + esc(e.place) : '') + '</h3><p class="text-sm text-slate-500">' + esc(e.date) + '</p></li>';
+    }).join('') + '</ol>');
+  },
+
+  profession: function () {
+    return Card('profession', 'পেশা', DATA.profession.map(function (e) {
       return '<div class="mt-4 border-l-2 border-teal-700 pl-4"><h3 class="font-semibold text-slate-900">' + esc(e.title) + '</h3><p class="font-medium text-teal-800">' +
         (e.link ? '<a href="' + esc(e.link) + '" target="_blank" rel="noopener" class="hover:underline">' + esc(e.org) + '</a>' : esc(e.org)) + '</p><p class="mt-1 text-slate-600">' + esc(e.text) + '</p></div>';
     }).join(''));
   },
-  education: function () {
-    return Card('education', 'Education', '<ol class="mt-4 space-y-5 border-l-2 border-slate-200 pl-4">' + DATA.education.map(function (e) {
-      return '<li><h3 class="font-semibold text-slate-900">' + esc(e.title) + (e.place ? ' – ' + esc(e.place) : '') + '</h3><p class="text-sm text-slate-500">' + esc(e.date) + '</p></li>';
-    }).join('') + '</ol>');
+
+  physical: function () {
+    return Card('physical', 'শারীরিক তথ্য ও আগ্রহ', '<dl class="mt-4 divide-y divide-slate-100 text-sm sm:grid sm:grid-cols-2 sm:gap-x-10 sm:divide-y-0">' +
+      DATA.physical.map(function (r) { return '<div class="flex justify-between gap-4 py-2.5"><dt class="text-slate-500">' + esc(r[0]) + '</dt><dd class="text-right font-semibold">' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>');
   },
-  portfolio: function () {
-    return Card('portfolio', 'Portfolio', DATA.portfolio.map(function (p) {
-      return '<a href="' + esc(p.link) + '" target="_blank" rel="noopener" class="mt-4 block rounded-xl border border-slate-200 p-4 hover:border-teal-700"><h3 class="font-semibold text-slate-900">' + esc(p.title) + '</h3><p class="mt-1 text-sm text-slate-600">' + esc(p.text) + '</p></a>';
-    }).join(''));
+
+  contact: function () {
+    return Card('contact', 'যোগাযোগ', '<ul class="mt-4 grid gap-3 text-sm sm:grid-cols-2 sm:gap-x-10">' +
+      DATA.contacts.map(function (c) { return '<li><a class="flex justify-between gap-3 hover:text-teal-800" href="' + esc(c[2]) + '" target="_blank" rel="noopener"><span class="text-slate-500">' + esc(c[0]) + '</span><span class="font-semibold">' + esc(c[1]) + '</span></a></li>'; }).join('') + '</ul>');
   },
+
   gallery: function () {
-    return Card('gallery', 'Photo gallery', '<div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">' + DATA.photos.map(function (p, i) {
+    return Card('gallery', 'ছবি', '<div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">' + DATA.photos.map(function (p, i) {
       return '<button type="button" data-i="' + i + '" class="overflow-hidden rounded-xl border border-slate-200 text-left"><div class="aspect-[4/5] w-full">' +
-        (p.src ? '<img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" loading="lazy" class="h-full w-full object-cover">' : Ph('Add photo')) + '</div><p class="px-3 py-2 text-sm text-slate-700">' + esc(p.caption) + '</p></button>';
+        (p.src ? '<img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" loading="lazy" class="h-full w-full object-cover">' : Ph('ছবি যোগ করুন')) + '</div><p class="px-3 py-2 text-sm text-slate-700">' + esc(p.caption) + '</p></button>';
     }).join('') + '</div>');
-  },
-  timeline: function () {
-    return Card('timeline', 'Work & project timeline', '<ol class="mt-6 space-y-8 border-l-2 border-teal-700 pl-6">' + DATA.timeline.map(function (t) {
-      var media = (t.media || []).map(function (m) {
-        var inner = m.type === 'video'
-          ? (m.src ? '<video controls preload="metadata" playsinline' + (m.poster ? ' poster="' + esc(m.poster) + '"' : '') + ' class="h-full w-full object-cover"><source src="' + esc(m.src) + '"></video>' : Ph('Add video'))
-          : (m.src ? '<img src="' + esc(m.src) + '" alt="' + esc(m.alt) + '" loading="lazy" class="h-full w-full object-cover">' : Ph('Add image'));
-        return '<div class="aspect-video overflow-hidden rounded-xl border border-slate-200">' + inner + '</div>';
-      }).join('');
-      var title = t.link ? '<a href="' + esc(t.link) + '" target="_blank" rel="noopener" class="hover:underline">' + esc(t.title) + '</a>' : esc(t.title);
-      return '<li class="relative"><span class="absolute -left-[31px] top-1.5 h-3 w-3 rounded-full bg-teal-700 ring-4 ring-white"></span>' +
-        (t.date ? '<p class="text-sm font-semibold text-teal-800">' + esc(t.date) + '</p>' : '') + '<h3 class="display text-lg font-bold text-slate-900">' + title + '</h3><p class="mt-1 text-slate-600">' + esc(t.text) + '</p>' +
-        (media ? '<div class="mt-3 grid gap-3 sm:grid-cols-2">' + media + '</div>' : '') + '</li>';
-    }).join('') + '</ol>');
   }
 };
 
 /* =========================================================
-   4) APP – renders enabled sections, top bar tabs, scroll-spy
+   ৪) অ্যাপ লজিক
    ========================================================= */
-/* a section shows only if it is enabled AND its data is not empty / null */
 function filled(v) {
   if (v == null || v === '') return false;
   if (Array.isArray(v)) return v.length > 0;
@@ -183,13 +400,13 @@ function filled(v) {
 }
 var HAS = {
   about:      function () { return filled(DATA.name); },
-  biodata:    function () { return filled(DATA.biodata); },
-  contact:    function () { return filled(DATA.contacts); },
-  experience: function () { return filled(DATA.experience); },
+  personal:   function () { return filled(DATA.personal); },
+  family:     function () { return filled(DATA.family); },
   education:  function () { return filled(DATA.education); },
-  portfolio:  function () { return filled(DATA.portfolio); },
-  gallery:    function () { return filled(DATA.photos); },
-  timeline:   function () { return filled(DATA.timeline); }
+  profession: function () { return filled(DATA.profession); },
+  physical:   function () { return filled(DATA.physical); },
+  contact:    function () { return filled(DATA.contacts); },
+  gallery:    function () { return filled(DATA.photos); }
 };
 function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]()); }
 
@@ -199,8 +416,8 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
   document.getElementById('app').innerHTML = on.map(function (s) { return COMPONENTS[s.id](); }).join('');
   document.getElementById('yr').textContent = new Date().getFullYear();
   var tb = document.getElementById('topbar');
-  tb.innerHTML = '<div class="mx-auto max-w-4xl px-4"><a href="#top" id="brand" class="flex w-fit items-center gap-2 pb-1 pt-2" aria-label="Back to top">' + Avatar('h-9 w-9 text-sm') +
-    '<span class="text-sm font-semibold text-slate-900 sm:text-base">' + esc(DATA.name) + '</span></a><div id="tabs" class="flex overflow-x-auto" role="navigation" aria-label="Page sections">' +
+  tb.innerHTML = '<div class="mx-auto max-w-4xl px-4"><a href="#top" id="brand" class="flex w-fit items-center gap-2 pb-1 pt-2" aria-label="উপরে যান">' + Avatar('h-9 w-9 text-sm') +
+    '<span class="text-sm font-semibold text-slate-900 sm:text-base">' + esc(DATA.name) + '</span></a><div id="tabs" class="flex overflow-x-auto" role="navigation" aria-label="সেকশন">' +
     on.map(function (s) { return '<a href="#s-' + s.id + '" class="tab" data-t="' + s.id + '">' + esc(s.tab) + '</a>'; }).join('') + '</div></div>';
   var bar = document.getElementById('tabs'), smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   tb.addEventListener('click', function (e) {
@@ -226,7 +443,6 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(spy); } }, { passive: true });
   window.addEventListener('resize', spy); spy();
 
-  /* gallery lightbox */
   var lb = document.getElementById('lb');
   document.getElementById('app').addEventListener('click', function (e) {
     var b = e.target.closest('button[data-i]'); if (!b) return;
@@ -239,113 +455,195 @@ function isOn(s) { return s.show && COMPONENTS[s.id] && (!HAS[s.id] || HAS[s.id]
 })();
 
 /* =========================================================
-   5) PDF – custom multi-page CV; follows SECTIONS (show/order)
+   ৫) PDF Generation (Smart Slicing & Full Page Images)
    ========================================================= */
 (function () {
-  var PH = 297, BOTTOM = 280, W = 210, M = 16;
-  var TEAL = [15, 118, 110], INK = [31, 42, 46], MUTED = [100, 116, 139];
-  function loadImg(src) { return new Promise(function (res) { if (!src) return res(null); var im = new Image(); im.crossOrigin = 'anonymous'; im.onload = function () { res(im); }; im.onerror = function () { res(null); }; im.src = src; }); }
-  function toCanvas(im, ratio, maxW, circle) {
-    try {
-      var sw = im.naturalWidth, sh = im.naturalHeight, cw = sw, ch = sh, sx = 0, sy = 0;
-      if (ratio) { if (sw / sh > ratio) { cw = sh * ratio; sx = (sw - cw) / 2; } else { ch = sw / ratio; sy = (sh - ch) / 2; } }
-      var k = Math.min(1, maxW / cw), c = document.createElement('canvas'); c.width = Math.round(cw * k); c.height = Math.round(ch * k);
-      var g = c.getContext('2d');
-      if (circle) { g.beginPath(); g.arc(c.width / 2, c.height / 2, c.width / 2, 0, Math.PI * 2); g.clip(); } else { g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); }
-      g.drawImage(im, sx, sy, cw, ch, 0, 0, c.width, c.height);
-      return { data: c.toDataURL(circle ? 'image/png' : 'image/jpeg', 0.88), fmt: circle ? 'PNG' : 'JPEG', ratio: cw / ch };
-    } catch (e) { return null; }
+  function rowHtml(r) {
+    return '<div class="pdf-row"><span class="pdf-label">' + esc(r[0]) + '</span><span class="pdf-value">' + esc(r[1]) + '</span></div>';
   }
 
-  async function build() {
-    var d = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' }), y = 58;
-    function ink() { d.setTextColor(INK[0], INK[1], INK[2]); } function muted() { d.setTextColor(MUTED[0], MUTED[1], MUTED[2]); } function teal() { d.setTextColor(TEAL[0], TEAL[1], TEAL[2]); }
-    function need(h) { if (y + h > BOTTOM) { d.addPage(); y = 20; } }
-    function head(t) { need(26); teal(); d.setFont('helvetica', 'bold'); d.setFontSize(12); d.text(t.toUpperCase(), M, y); d.setDrawColor(TEAL[0], TEAL[1], TEAL[2]); d.setLineWidth(0.5); d.line(M, y + 2, W - M, y + 2); y += 10; ink(); }
-    function kv(k, v, x) { d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); d.text(k, x, y); d.setFont('helvetica', 'bold'); ink(); d.text(v, x + 32, y); }
-    function entry(title, sub, date) {
-      need(16); d.setFont('helvetica', 'bold'); d.setFontSize(11); ink(); d.text(title, M, y);
-      d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); if (date) d.text(date, W - M, y, { align: 'right' });
-      if (sub) { y += 5.5; d.text(sub, M, y); } y += 9;
+  function buildPdfContent() {
+    document.getElementById('pdf-personal').innerHTML = DATA.personal.map(rowHtml).join('');
+    document.getElementById('pdf-family').innerHTML   = DATA.family.map(rowHtml).join('');
+    document.getElementById('pdf-physical').innerHTML = DATA.physical.map(rowHtml).join('');
+
+    document.getElementById('pdf-education').innerHTML = DATA.education.map(function (e) {
+      return '<div class="pdf-edu"><div class="pdf-edu-t">' + esc(e.title) + '</div>' +
+             '<div class="pdf-edu-s">' + esc(e.place) + ' &nbsp;•&nbsp; ' + esc(e.date) + '</div></div>';
+    }).join('');
+
+    document.getElementById('pdf-profession').innerHTML = DATA.profession.map(function (e) {
+      return '<div class="pdf-edu"><div class="pdf-edu-t">' + esc(e.title) + '</div>' +
+             '<div class="pdf-edu-s" style="color:#0f766e;font-weight:600;">' + esc(e.org) + '</div>' +
+             '<div class="pdf-edu-s" style="margin-top:2px;">' + esc(e.text) + '</div></div>';
+    }).join('');
+
+    // 📌 PDF গ্যালারি স্পেসিফিক লজিক (১, ২, ৩ বা ৪টি ছবি)
+    var galleryEl = document.getElementById('pdf-gallery');
+    if (galleryEl) {
+      galleryEl.className = 'pdf-gallery-grid';
+      var numPhotos = DATA.photos ? DATA.photos.length : 0;
+      
+      if (numPhotos === 1) galleryEl.classList.add('grid-1');
+      else if (numPhotos === 2) galleryEl.classList.add('grid-2');
+      else if (numPhotos === 3) galleryEl.classList.add('grid-3');
+      else if (numPhotos >= 4) galleryEl.classList.add('grid-4');
+
+      if (numPhotos > 0) {
+        galleryEl.innerHTML = DATA.photos.map(function(p) {
+          return '<div class="pdf-gallery-item">' +
+                 (p.src ? '<img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" crossorigin="anonymous">' : '<div style="height:150px; display:flex; align-items:center; justify-content:center; background:#f1f5f9; color:#64748b;">ছবি নেই</div>') +
+                 '</div>';
+        }).join('');
+      } else {
+        galleryEl.innerHTML = '<div style="font-size:12px; color:#64748b;">কোনো ছবি যুক্ত করা হয়নি।</div>';
+      }
     }
 
-    /* header band + round profile photo (initials if no photo) */
-    d.setFillColor(TEAL[0], TEAL[1], TEAL[2]); d.rect(0, 0, W, 44, 'F');
-    d.setTextColor(255, 255, 255); d.setFont('helvetica', 'bold'); d.setFontSize(26); d.text(DATA.name, M, 21);
-    d.setFont('helvetica', 'normal'); d.setFontSize(12); d.text(DATA.role, M, 30); d.setFontSize(9.5); d.text(DATA.pdfLine, M, 38);
-    var cx = W - M - 16, cy = 22, pim = await loadImg(DATA.photo), pc = pim ? toCanvas(pim, 1, 500, true) : null;
-    d.setFillColor(255, 255, 255); d.circle(cx, cy, 17, 'F');
-    if (pc) d.addImage(pc.data, 'PNG', cx - 15, cy - 15, 30, 30);
-    else { d.setFillColor(TEAL[0], TEAL[1], TEAL[2]); d.circle(cx, cy, 15, 'F'); d.setTextColor(255, 255, 255); d.setFont('helvetica', 'bold'); d.setFontSize(18); d.text(DATA.initials, cx, cy + 2.5, { align: 'center' }); }
+    var photoEl = document.getElementById('pdf-photo');
+    if (DATA.photo) {
+      photoEl.innerHTML = '<img src="' + esc(DATA.photo) + '" alt="" crossorigin="anonymous" ' +
+        'style="width:100%;height:100%;object-fit:cover;" ' +
+        'onerror="this.parentNode.innerHTML=\'মম\'">';
+    }
+  }
 
-    var P = {
-      about: async function () { head('Profile'); d.setFont('helvetica', 'normal'); d.setFontSize(10.5); ink(); var s = d.splitTextToSize(DATA.bio, W - 2 * M); d.text(s, M, y); y += s.length * 5.5 + 8; },
-      biodata: async function () { head('Biodata'); for (var i = 0; i < DATA.biodata.length; i += 2) { var a = DATA.biodata[i], b = DATA.biodata[i + 1]; need(8); kv(a[0], a[1], M); if (b) kv(b[0], b[1], M + 92); y += 7; } y += 6; },
-      experience: async function () { head('Experience'); DATA.experience.forEach(function (e) { entry(e.title, e.org + (e.link ? '  (' + e.link.replace('https://', '') + ')' : ''), ''); }); },
-      education: async function () { head('Education'); DATA.education.forEach(function (e) { entry(e.title, e.place, e.date.replace('–', '-')); }); },
-      portfolio: async function () { head('Portfolio'); DATA.portfolio.forEach(function (p) { entry(p.title, p.link.replace('https://', ''), ''); }); },
-      timeline: async function () {
-        if (!DATA.timeline.length) return; head('Work & project timeline');
-        var cw = (W - 2 * M - 6 - 4) / 2;
-        for (var a = 0; a < DATA.timeline.length; a++) {
-          var t = DATA.timeline[a], imgs = [], vids = [], ms = t.media || [];
-          for (var b = 0; b < ms.length; b++) {
-            if (ms[b].type === 'image' && ms[b].src) { var im = await loadImg(ms[b].src), c = im ? toCanvas(im, 0, 1000, false) : null; if (c) imgs.push(c); }
-            else if (ms[b].type === 'video' && ms[b].src) vids.push(ms[b].src);
+  async function ensureFonts() {
+    try {
+      if (!document.fonts) return;
+      await Promise.all([
+        document.fonts.load('600 16px "Hind Siliguri"'),
+        document.fonts.load('400 16px "Hind Siliguri"'),
+        document.fonts.load('700 16px "Noto Serif Bengali"')
+      ]);
+      await document.fonts.ready;
+    } catch (e) { /* ignore */ }
+  }
+
+  function waitImages(root) {
+    var imgs = Array.prototype.slice.call(root.querySelectorAll('img'));
+    return Promise.all(imgs.map(function (img) {
+      if (img.complete) return Promise.resolve();
+      return new Promise(function (res) { img.onload = img.onerror = res; });
+    }));
+  }
+
+  function downloadBlob(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.rel = 'noopener';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+  }
+
+  async function makePdf() {
+    var el = document.getElementById('pdf-template');
+    var SCALE = 3;
+
+    await ensureFonts();
+    buildPdfContent();
+    await waitImages(el);
+
+    // 💡 সঠিক পজিশন ক্যালকুলেশন (যাতে ছবি বা সেকশন মাঝখান থেকে না কাটে)
+    var elRect = el.getBoundingClientRect();
+    var sections = Array.from(el.querySelectorAll('.pdf-sec, .pdf-gallery-item'));
+    var boundsToAvoid = sections.map(function(node) {
+        var rect = node.getBoundingClientRect();
+        return { 
+            top: (rect.top - elRect.top) * SCALE, 
+            bottom: (rect.bottom - elRect.top) * SCALE 
+        };
+    });
+
+    var canvas = await html2canvas(el, {
+      scale: SCALE,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: el.offsetWidth,
+      height: el.offsetHeight,
+      windowWidth: el.offsetWidth,
+      windowHeight: el.offsetHeight
+    });
+
+    var jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
+    var pdf = new jsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+    pdf.setProperties({ title: 'মির্জা মোজাহিদ – সিভি', author: 'মির্জা মোজাহিদ' });
+
+    var PAGE_W = 210, PAGE_H = 297; 
+    var CONTENT_W = PAGE_W; 
+    var CONTENT_H = PAGE_H; 
+
+    var pxPerMm = canvas.width / CONTENT_W;
+    var sliceHeightPx = Math.floor(CONTENT_H * pxPerMm);
+
+    var y = 0, pageIndex = 0;
+    
+    while (y < canvas.height) {
+      var idealCutY = y + sliceHeightPx;
+      var actualCutY = idealCutY;
+
+      if (idealCutY < canvas.height) {
+          for (var i = 0; i < boundsToAvoid.length; i++) {
+              var b = boundsToAvoid[i];
+              if (b.top < idealCutY && b.bottom > idealCutY) {
+                  if (b.top > y + 20) {
+                      actualCutY = Math.min(actualCutY, b.top);
+                  }
+              }
           }
-          d.setFont('helvetica', 'normal'); d.setFontSize(10); var lines = d.splitTextToSize(t.text || '', W - 2 * M - 6); need(14 + lines.length * 5);
-          d.setFillColor(TEAL[0], TEAL[1], TEAL[2]); d.circle(M + 1.5, y - 1.2, 1.4, 'F');
-          d.setFont('helvetica', 'bold'); d.setFontSize(11); ink(); d.text(t.title, M + 6, y);
-          if (t.date) { d.setFont('helvetica', 'normal'); d.setFontSize(10); teal(); d.text(t.date.replace('–', '-'), W - M, y, { align: 'right' }); }
-          y += 5.5; d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); d.text(lines, M + 6, y); y += lines.length * 5 + 2;
-          var rowY = y, rowH = 0;
-          for (var n = 0; n < imgs.length; n++) {
-            var w = cw, h = cw / imgs[n].ratio; if (h > 55) { h = 55; w = h * imgs[n].ratio; }
-            if (n % 2 === 0) { need(h + 4); rowY = y; rowH = 0; }
-            d.addImage(imgs[n].data, imgs[n].fmt, M + 6 + (n % 2) * (cw + 4), rowY, w, h); rowH = Math.max(rowH, h);
-            if (n % 2 === 1 || n === imgs.length - 1) y = rowY + rowH + 4;
-          }
-          for (var v = 0; v < vids.length; v++) { need(7); d.setFontSize(9); teal(); d.textWithLink('Video: ' + vids[v], M + 6, y, { url: vids[v] }); y += 6; }
-          y += 5;
-        }
-      },
-      gallery: async function () {
-        var ph = [];
-        for (var p = 0; p < DATA.photos.length; p++) { if (!DATA.photos[p].src) continue; var gi = await loadImg(DATA.photos[p].src), gc = gi ? toCanvas(gi, 0.8, 700, false) : null; if (gc) ph.push({ c: gc, cap: DATA.photos[p].caption }); }
-        if (!ph.length) return; head('Photo gallery');
-        var gw = (W - 2 * M - 8) / 3, gh = gw / 0.8;
-        ph.forEach(function (it, i) {
-          var col = i % 3; if (col === 0) need(gh + 10);
-          d.addImage(it.c.data, 'JPEG', M + col * (gw + 4), y, gw, gh);
-          d.setFont('helvetica', 'normal'); d.setFontSize(8.5); muted(); d.text(it.cap || '', M + col * (gw + 4) + gw / 2, y + gh + 4, { align: 'center' });
-          if (col === 2 || i === ph.length - 1) y += gh + 10;
-        });
-      },
-      contact: async function () {
-        need(62); head('Contact & links');
-        DATA.contacts.forEach(function (l) { need(8); d.setFont('helvetica', 'normal'); d.setFontSize(10); muted(); d.text(l[0], M, y); teal(); d.textWithLink(l[1], M + 32, y, { url: l[2] }); y += 7; });
       }
-    };
-    var cOn = false;   /* contact always goes last in the PDF */
-    for (var i = 0; i < SECTIONS.length; i++) { var s = SECTIONS[i]; if (!isOn(s) || !P[s.id]) continue; if (s.id === 'contact') { cOn = true; continue; } await P[s.id](); }
-    if (cOn) await P.contact();
 
-    var pages = d.getNumberOfPages();
-    for (var q = 1; q <= pages; q++) { d.setPage(q); d.setFont('helvetica', 'normal'); d.setFontSize(8.5); muted(); d.text(DATA.name + '  |  CV', M, PH - 9); d.text('Page ' + q + ' of ' + pages, W - M, PH - 9, { align: 'right' }); }
-    return d;
+      var h = actualCutY - y; 
+      
+      // 💡 ফাঁকা পেজ আটকানোর লজিক: যদি বাকি অংশ ১০ পিক্সেলের কম হয়, তবে নতুন পেজ তৈরি হবে না
+      if (h <= 10) break; 
+
+      var slice = document.createElement('canvas');
+      slice.width = canvas.width;
+      slice.height = h;
+      var ctx = slice.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, slice.width, slice.height);
+      ctx.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
+
+      var imgData = slice.toDataURL('image/jpeg', 0.94);
+
+      if (pageIndex > 0) pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, 0, CONTENT_W, h / pxPerMm, undefined, 'FAST');
+
+      y = actualCutY; 
+      pageIndex++;
+    }
+
+    return pdf.output('blob');
   }
 
   var btn = document.getElementById('pdfbtn');
-  if (btn) btn.addEventListener('click', async function () {
-    var name = 'Mirza-Mojahid-CV.pdf', d, label = btn.textContent;
-    btn.disabled = true; btn.textContent = 'Preparing PDF...';
-    try { d = await build(); } catch (e) { btn.disabled = false; btn.textContent = label; return; }
-    try {
-      var dl = (window.claude && window.claude.use) ? await window.claude.use('downloads') : null;
-      if (dl) await dl.save({ filename: name, data: d.output('blob') }); else d.save(name);
-    } catch (e) { if (!e || e.code !== 'declined') { try { d.save(name); } catch (_) {} } }
-    btn.disabled = false; btn.textContent = label;
-  });
+  if (btn) {
+    btn.addEventListener('click', async function () {
+      if (btn.disabled) return;
+      var label = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'PDF তৈরি হচ্ছে...';
+      try {
+        var blob = await makePdf();
+        downloadBlob(blob, 'Mirza-Mojahid-Marriage-CV.pdf');
+      } catch (err) {
+        console.error(err);
+        alert('PDF তৈরি করতে সমস্যা হয়েছে। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
+  }
 })();
 </script>
 </body>
